@@ -1,6 +1,6 @@
 # Hlasování
 
-Jednoduchý demonstrační web pro vytváření hlasování.
+Jednoduchý web pro hlasování.
 
 ## Spuštění
 
