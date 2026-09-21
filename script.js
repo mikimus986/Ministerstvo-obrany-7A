@@ -141,7 +141,7 @@ function renderPolls() {
   pollCount.textContent = `${polls.length} ${polls.length === 1 ? "hlasování" : "hlasování"}`;
 
   if (!polls.length) {
-    pollList.innerHTML = `<div class="card"><p class="muted">Zatím zde není žádné hlasování. Vytvoř první.</p></div>`;
+    pollList.innerHTML = `<div class="card"><p class="muted">Zatím zde není žádné hlasování.</p></div>`;
     return;
   }
 
