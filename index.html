@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hlasování</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>Hlasování</h1>
+        <p>Jednoduchý systém pro vytváření a hlasování.</p>
+      </div>
+      <div id="userBox"></div>
+    </header>
+
+    <main>
+      <section id="authView" class="card">
+        <h2>Vstup do systému</h2>
+        <p class="muted">Zadej své jméno. Pro tento demonstrační projekt se účet ukládá pouze do tohoto prohlížeče.</p>
+        <input id="nameInput" maxlength="30" placeholder="Tvoje jméno" autocomplete="off">
+        <button id="loginBtn">Pokračovat</button>
+      </section>
+
+      <section id="mainView" class="hidden">
+        <div class="toolbar">
+          <button id="newPollBtn">＋ Nové hlasování</button>
+          <button id="logoutBtn" class="secondary">Odhlásit</button>
+        </div>
+
+        <div id="createCard" class="card hidden">
+          <h2>Nové hlasování</h2>
+          <input id="questionInput" maxlength="120" placeholder="Otázka hlasování">
+          <div id="options"></div>
+          <button id="addOptionBtn" class="secondary">＋ Přidat možnost</button>
+          <div class="actions">
+            <button id="createBtn">Vytvořit hlasování</button>
+            <button id="cancelCreateBtn" class="secondary">Zrušit</button>
+          </div>
+        </div>
+
+        <div class="sectionTitle">
+          <h2>Aktivní hlasování</h2>
+          <span id="pollCount"></span>
+        </div>
+        <div id="pollList"></div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
