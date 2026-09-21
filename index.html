@@ -1,54 +1,82 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hlasování</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hlasování</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app">
-    <header>
-      <div>
-        <h1>Hlasování</h1>
-        <p>Jednoduchý systém pro hlasování.</p>
-      </div>
-      <div id="userBox"></div>
-    </header>
+<div class="app">
+  <header>
+    <div>
+      <h1>Hlasování</h1>
+      <p>Hlasování a podávání žalob.</p>
+    </div>
+    <div id="userBox"></div>
+  </header>
 
-    <main>
-      <section id="authView" class="card">
-        <h2>Vstup do systému</h2>
-        <p class="muted">Zadej své jméno. Pro tento demonstrační projekt se účet ukládá pouze do tohoto prohlížeče.</p>
-        <input id="nameInput" maxlength="30" placeholder="Tvoje jméno" autocomplete="off">
-        <button id="loginBtn">Pokračovat</button>
+  <main>
+    <section id="authView" class="card auth">
+      <h2>Vstup do systému</h2>
+      <p class="muted">Zadej své uživatelské jméno.</p>
+      <input id="nameInput" maxlength="40" placeholder="Uživatelské jméno" autocomplete="off">
+      <button id="loginBtn">Přihlásit</button>
+    </section>
+
+    <section id="mainView" class="hidden">
+      <div class="toolbar">
+        <div>
+          <button id="newPollBtn" class="hidden">＋ Nová anketa</button>
+          <button id="newLawsuitBtn">⚖ Poslat žalobu</button>
+        </div>
+        <button id="logoutBtn" class="secondary">Odhlásit</button>
+      </div>
+
+      <section id="createPollCard" class="card hidden">
+        <h2>Nová anketa</h2>
+        <input id="questionInput" maxlength="150" placeholder="Otázka ankety">
+        <div id="options"></div>
+        <button id="addOptionBtn" class="secondary">＋ Přidat možnost</button>
+        <div class="actions">
+          <button id="createBtn">Vytvořit anketu</button>
+          <button id="cancelCreateBtn" class="secondary">Zrušit</button>
+        </div>
       </section>
 
-      <section id="mainView" class="hidden">
-        <div class="toolbar">
-          <button id="newPollBtn">＋ Nové hlasování</button>
-          <button id="logoutBtn" class="secondary">Odhlásit</button>
+      <section id="lawsuitFormCard" class="card hidden">
+        <h2>Poslat žalobu</h2>
+        <p class="muted">Vyplň všechny údaje. Žalobu může podat každý přihlášený uživatel.</p>
+        <label>Kdo žalobu posílá?</label>
+        <input id="lawsuitSender" maxlength="60" placeholder="Jméno žalujícího">
+        <label>Na koho žaloba směřuje?</label>
+        <input id="lawsuitTarget" maxlength="60" placeholder="Jméno osoby">
+        <label>Co udělal?</label>
+        <textarea id="lawsuitReason" maxlength="1000" placeholder="Popiš, čeho se žaloba týká..."></textarea>
+        <div class="actions">
+          <button id="sendLawsuitBtn">Odeslat žalobu</button>
+          <button id="cancelLawsuitBtn" class="secondary">Zrušit</button>
         </div>
+      </section>
 
-        <div id="createCard" class="card hidden">
-          <h2>Nové hlasování</h2>
-          <input id="questionInput" maxlength="120" placeholder="Otázka hlasování">
-          <div id="options"></div>
-          <button id="addOptionBtn" class="secondary">＋ Přidat možnost</button>
-          <div class="actions">
-            <button id="createBtn">Vytvořit hlasování</button>
-            <button id="cancelCreateBtn" class="secondary">Zrušit</button>
-          </div>
-        </div>
-
+      <section>
         <div class="sectionTitle">
-          <h2>Aktivní hlasování</h2>
+          <h2>Ankety</h2>
           <span id="pollCount"></span>
         </div>
         <div id="pollList"></div>
       </section>
-    </main>
-  </div>
-  <script src="script.js"></script>
+
+      <section class="lawsuitsSection">
+        <div class="sectionTitle">
+          <h2>Podané žaloby</h2>
+          <span id="lawsuitCount"></span>
+        </div>
+        <div id="lawsuitList"></div>
+      </section>
+    </section>
+  </main>
+</div>
+<script src="script.js"></script>
 </body>
 </html>

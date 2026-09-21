@@ -1,25 +1,15 @@
-# Hlasování
+# Hlasování + žaloby
 
-Jednoduchý web pro hlasování.
-
-## Spuštění
-
-Stačí otevřít `index.html`.
-
-Projekt funguje bez serveru a ukládá uživatele, hlasování a hlasy do `localStorage` prohlížeče.
+Web obsahuje:
+- přihlášení pomocí uživatelského jména,
+- ankety,
+- vytváření anket pouze pro Mikuláše Musialeka, Miroslava Štropa a Vojtěcha Laichmana,
+- hlasování,
+- podávání žalob libovolným přihlášeným uživatelem,
+- přehled podaných žalob,
+- rozkliknutí žaloby pro zobrazení celého textu.
 
 ## Důležité
+Tato verze je stále statická a ukládá data do `localStorage`. To znamená, že různí návštěvníci webu nesdílejí stejná data.
 
-Tato verze není skutečná online databázová aplikace. Když ji nahraješ pouze jako statický web na GitHub Pages, každý návštěvník bude mít vlastní data ve svém prohlížeči.
-
-Pro skutečné společné hlasování mezi více lidmi je potřeba přidat backend/databázi, například Firebase, Supabase nebo vlastní server.
-
-## Funkce
-
-- přihlášení pomocí jména
-- vytvoření hlasování
-- libovolný počet možností
-- jeden hlas na uživatele v daném prohlížeči
-- procenta a graf výsledků
-- autor může své hlasování odstranit
-- responzivní vzhled pro mobil i počítač
+Pro skutečný veřejný web, kde se ankety a žaloby okamžitě zobrazí všem uživatelům, je potřeba online databáze/backend.
