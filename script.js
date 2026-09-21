@@ -1,4 +1,5 @@
 const USER_KEY = "hlasovani_current_user";
+const CREATOR_NAMES = ["Mikuláš Musialek", "Miroslav Štrop", "Vojtěch Laichman"];
 const POLLS_KEY = "hlasovani_polls";
 
 const authView = document.getElementById("authView");
@@ -29,6 +30,7 @@ function showApp() {
   authView.classList.add("hidden");
   mainView.classList.remove("hidden");
   userBox.textContent = "Přihlášen: " + currentUser;
+  document.getElementById("newPollBtn").classList.toggle("hidden", !canCreatePoll());
   renderPolls();
 }
 
@@ -54,7 +56,15 @@ function resetCreate() {
   addOption();
 }
 
+function canCreatePoll() {
+  return CREATOR_NAMES.some(n => n.toLowerCase() === currentUser.toLowerCase());
+}
+
 function openCreate() {
+  if (!canCreatePoll()) {
+    alert("Ankety mohou vytvářet pouze povolení uživatelé.");
+    return;
+  }
   createCard.classList.remove("hidden");
   resetCreate();
   questionInput.focus();
