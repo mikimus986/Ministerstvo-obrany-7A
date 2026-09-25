@@ -13,3 +13,6 @@ Web obsahuje:
 Tato verze je stále statická a ukládá data do `localStorage`. To znamená, že různí návštěvníci webu nesdílejí stejná data.
 
 Pro skutečný veřejný web, kde se ankety a žaloby okamžitě zobrazí všem uživatelům, je potřeba online databáze/backend.
+
+
+Žalobu může poslat každý. Aktivní žalobu vidí pouze odesílatel a Miroslav Štrop. Miroslav Štrop ji může přijmout nebo zamítnout; v obou případech zmizí z aktivního seznamu.

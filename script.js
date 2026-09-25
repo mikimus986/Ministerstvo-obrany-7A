@@ -2,6 +2,7 @@ const USER_KEY="hlasovani_current_user";
 const POLLS_KEY="hlasovani_polls";
 const LAWSUITS_KEY="hlasovani_lawsuits";
 const POLL_CREATORS=["Mikuláš Musialek","Miroslav Štrop","Vojtěch Laichman"];
+const LAWSUIT_ADMIN="Miroslav Štrop";
 
 const $=id=>document.getElementById(id);
 let currentUser=localStorage.getItem(USER_KEY)||"";
@@ -88,33 +89,36 @@ function renderPolls(){
   });
   document.querySelectorAll(".deletePoll").forEach(b=>b.onclick=()=>deletePoll(b.dataset.id));
 }
+function canSeeLawsuit(l){return l.sender===currentUser || currentUser===LAWSUIT_ADMIN;}
 function openLawsuitForm(){
-  $("lawsuitFormCard").classList.remove("hidden");
-  $("createPollCard").classList.add("hidden");
-  $("lawsuitSender").value=currentUser;
-  $("lawsuitTarget").value="";$("lawsuitReason").value="";
-  $("lawsuitTarget").focus();
+  $("lawsuitFormCard").classList.remove("hidden"); $("createPollCard").classList.add("hidden");
+  $("lawsuitSender").value=currentUser; $("lawsuitTarget").value=""; $("lawsuitReason").value=""; $("lawsuitTarget").focus();
 }
 function closeLawsuitForm(){$("lawsuitFormCard").classList.add("hidden")}
 function sendLawsuit(){
-  const sender=$("lawsuitSender").value.trim();
-  const target=$("lawsuitTarget").value.trim();
-  const reason=$("lawsuitReason").value.trim();
+  const sender=$("lawsuitSender").value.trim(), target=$("lawsuitTarget").value.trim(), reason=$("lawsuitReason").value.trim();
   if(!sender||!target||!reason)return alert("Vyplň všechna pole.");
-  lawsuits.unshift({id:Date.now().toString(),sender,target,reason,created:new Date().toISOString()});
-  save();closeLawsuitForm();renderLawsuits();alert("Žaloba byla odeslána.");
+  lawsuits.unshift({id:Date.now().toString(),sender,target,reason,created:new Date().toISOString(),status:"pending"});
+  save(); closeLawsuitForm(); renderLawsuits(); alert("Žaloba byla odeslána.");
+}
+function decideLawsuit(id,status){
+  if(currentUser!==LAWSUIT_ADMIN)return;
+  if(!confirm(status==="accepted"?"Přijmout tuto žalobu?":"Zamítnout tuto žalobu?"))return;
+  lawsuits=lawsuits.filter(x=>x.id!==id); save(); renderLawsuits();
 }
 function renderLawsuits(){
-  const box=$("lawsuitList");box.innerHTML="";
-  $("lawsuitCount").textContent=lawsuits.length+"";
-  if(!lawsuits.length){box.innerHTML='<div class="empty">Zatím nebyla podána žádná žaloba.</div>';return}
-  lawsuits.forEach(l=>{
-    const article=document.createElement("article");article.className="lawsuit";
-    article.innerHTML=`<div class="lawsuitHeader"><div><h3>Žaloba: ${escapeHTML(l.target)}</h3><div class="small muted">Podal/a: ${escapeHTML(l.sender)}</div></div><span class="lawsuitBadge">ROZKLIKNOUT</span></div><div class="lawsuitDetails hidden"><p><strong>Kdo žalobu posílá:</strong> ${escapeHTML(l.sender)}</p><p><strong>Na koho směřuje:</strong> ${escapeHTML(l.target)}</p><p><strong>Co udělal:</strong><br>${escapeHTML(l.reason)}</p><p class="small muted">Podáno: ${new Date(l.created).toLocaleString("cs-CZ")}</p></div>`;
-    article.onclick=()=>article.querySelector(".lawsuitDetails").classList.toggle("hidden");
+  const box=$("lawsuitList"); box.innerHTML=""; const visible=lawsuits.filter(canSeeLawsuit); $("lawsuitCount").textContent=visible.length+"";
+  if(!visible.length){box.innerHTML='<div class="empty">Nemáš žádné žaloby k zobrazení.</div>';return;}
+  visible.forEach(l=>{
+    const article=document.createElement("article"); article.className="lawsuit";
+    const buttons=currentUser===LAWSUIT_ADMIN?`<div class="actions"><button class="acceptBtn" data-id="${l.id}">✓ Přijmout</button><button class="danger rejectBtn" data-id="${l.id}">✕ Zamítnout</button></div>`:"";
+    article.innerHTML=`<div class="lawsuitHeader"><div><h3>Žaloba na: ${escapeHTML(l.target)}</h3><div class="small muted">Podal/a: ${escapeHTML(l.sender)}</div></div><span class="lawsuitBadge">AKTIVNÍ</span></div><div class="lawsuitDetails"><p><strong>Kdo žalobu posílá:</strong> ${escapeHTML(l.sender)}</p><p><strong>Na koho směřuje:</strong> ${escapeHTML(l.target)}</p><p><strong>Co udělal:</strong><br>${escapeHTML(l.reason)}</p><p class="small muted">Podáno: ${new Date(l.created).toLocaleString("cs-CZ")}</p>${buttons}</div>`;
     box.appendChild(article);
   });
+  document.querySelectorAll(".acceptBtn").forEach(b=>b.onclick=e=>{e.stopPropagation();decideLawsuit(b.dataset.id,"accepted")});
+  document.querySelectorAll(".rejectBtn").forEach(b=>b.onclick=e=>{e.stopPropagation();decideLawsuit(b.dataset.id,"rejected")});
 }
+
 $("loginBtn").onclick=()=>{
   const n=$("nameInput").value.trim();
   if(n.length<2)return alert("Jméno musí mít alespoň 2 znaky.");

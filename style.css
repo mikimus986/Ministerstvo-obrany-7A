@@ -33,3 +33,5 @@ button.secondary{background:#303a48}button.danger{background:#9d3540}
 .empty{padding:20px;text-align:center;color:#9da9b8;background:#151b24;border-radius:12px}
 .actions{margin-top:5px}
 @media(max-width:650px){header,.toolbar,.sectionTitle{align-items:flex-start;flex-direction:column}h1{font-size:31px}.card,.poll,.lawsuit{padding:17px}.lawsuitHeader{align-items:flex-start;flex-direction:column}}
+
+.acceptBtn{background:#23834a}.rejectBtn{background:#9d3540}
